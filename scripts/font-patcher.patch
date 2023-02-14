@@ -1,0 +1,259 @@
+diff --git a/font-patcher b/font-patcher
+index 534ddcb75..5235be2ab 100755
+--- a/font-patcher
++++ b/font-patcher
+@@ -9,7 +9,10 @@ from __future__ import absolute_import, print_function, unicode_literals
+ script_version = "3.5.4"
+ 
+ version = "2.3.3"
+-projectName = "Nerd Fonts"
++# FOR SARASA
++is_wide = False
++subFamily = ""
++projectName = "Nerds"
+ projectNameAbbreviation = "NF"
+ projectNameSingular = projectName[:-1]
+ 
+@@ -374,12 +377,19 @@ class font_patcher:
+             sourceFonts[0].generateTtc(outfile, sourceFonts[1:], flags=gen_flags, layer=layer)
+             message = "   Generated {} fonts\n   \===> '{}'".format(len(sourceFonts), outfile)
+         else:
+-            fontname = sourceFont.fullname
++            # FOR SARASA
++            fontname = sourceFont.familyname
+             if not fontname:
+                 fontname = sourceFont.cidfontname
+-            outfile = os.path.normpath(os.path.join(
+-                sanitize_filename(self.args.outputdir, True),
+-                sanitize_filename(fontname) + self.args.extension))
++            # FOR SARASA
++            outfile = os.path.normpath(
++                os.path.join(sanitize_filename(self.args.outputdir, True),
++                '-'.join(sanitize_filename(fontname).split())
++                             + '-'
++                             + get_subfamily(
++                                 sourceFont.fontname
++                                 ).replace(" ", "")
++                             + self.args.extension)).lower()
+             bitmaps = str()
+             if len(self.sourceFont.bitmapSizes):
+                 if not self.args.quiet:
+@@ -421,6 +431,10 @@ class font_patcher:
+             print("Warning: Source font is a variable open type font (VF) and the patch results will most likely not be what you want")
+         print(message)
+ 
++        # FOR SARASA: build hdmx table
++        print("Building hdmx table")
++        build_hdmx(outfile)
++
+         if self.args.postprocess:
+             subprocess.call([self.args.postprocess, outfile])
+             print("\nPost Processed: {}".format(outfile))
+@@ -444,45 +458,15 @@ class font_patcher:
+             additionalFontNameSuffix = " " + projectNameAbbreviation
+         else:
+             additionalFontNameSuffix = verboseAdditionalFontNameSuffix
+-        if not self.args.complete:
+-            # NOTE not all symbol fonts have appended their suffix here
+-            if self.args.fontawesome:
+-                additionalFontNameSuffix += " A"
+-                verboseAdditionalFontNameSuffix += " Plus Font Awesome"
+-            if self.args.fontawesomeextension:
+-                additionalFontNameSuffix += " AE"
+-                verboseAdditionalFontNameSuffix += " Plus Font Awesome Extension"
+-            if self.args.octicons:
+-                additionalFontNameSuffix += " O"
+-                verboseAdditionalFontNameSuffix += " Plus Octicons"
+-            if self.args.powersymbols:
+-                additionalFontNameSuffix += " PS"
+-                verboseAdditionalFontNameSuffix += " Plus Power Symbols"
+-            if self.args.codicons:
+-                additionalFontNameSuffix += " C"
+-                verboseAdditionalFontNameSuffix += " Plus Codicons"
+-            if self.args.pomicons:
+-                additionalFontNameSuffix += " P"
+-                verboseAdditionalFontNameSuffix += " Plus Pomicons"
+-            if self.args.fontlogos:
+-                additionalFontNameSuffix += " L"
+-                verboseAdditionalFontNameSuffix += " Plus Font Logos"
+-            if self.args.material:
+-                additionalFontNameSuffix += " MDI"
+-                verboseAdditionalFontNameSuffix += " Plus Material Design Icons"
+-            if self.args.weather:
+-                additionalFontNameSuffix += " WEA"
+-                verboseAdditionalFontNameSuffix += " Plus Weather Icons"
+-
+-        # if all source glyphs included simplify the name
+-        else:
+-            additionalFontNameSuffix = " " + projectNameSingular + " Complete"
+-            verboseAdditionalFontNameSuffix = " " + projectNameSingular + " Complete"
++        # FOR SARASA: clean file name
++        additionalFontNameSuffix = " " + projectNameSingular
++        verboseAdditionalFontNameSuffix = " " + projectNameSingular
+ 
+         # add mono signifier to end of name
+-        if self.args.single:
+-            additionalFontNameSuffix += " M"
+-            verboseAdditionalFontNameSuffix += " Mono"
++        # FOR SARASA: clean file name
++        # if self.args.single:
++        #     additionalFontNameSuffix += " M"
++        #     verboseAdditionalFontNameSuffix += " Mono"
+ 
+         if FontnameParserOK and self.args.makegroups:
+             use_fullname = type(font.fullname) == str # Usually the fullname is better to parse
+@@ -514,6 +498,9 @@ class font_patcher:
+ 
+         # dont trust 'font.familyname'
+         familyname = fontname
++        # FOR SARASA
++        familyname = "Sarasa Mono SC"
++        fallbackStyle = get_subfamily(font.fontname)
+ 
+         # fullname (filename) can always use long/verbose font name, even in windows
+         if font.fullname != None:
+@@ -647,13 +634,46 @@ class font_patcher:
+         if not (FontnameParserOK and self.args.makegroups):
+             # replace any extra whitespace characters:
+             font.familyname = " ".join(familyname.split())
+-            font.fullname   = " ".join(fullname.split())
+-            font.fontname   = " ".join(fontname.split())
++            # FOR SARASA
++            font.fullname   = font.familyname + " " + subFamily
++            font.fontname   = font.familyname.replace(
++                " ", "-") + "-" + subFamily.replace(" ", "-")
+ 
+             font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
+             font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
+             font.appendSFNTName(str('English (US)'), str('Compatible Full'), font.fullname)
+             font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
++
++            # FOR SARASA: fix font name
++            font.appendSFNTName( str("English (US)"), str("UniqueID"), font.fullname)
++
++            font.appendSFNTName( str("Chinese (PRC)"),
++                str("Preferred Family"),
++                font.familyname.replace("Sarasa", "更纱黑体")
++            )
++            font.appendSFNTName(
++                str("Chinese (PRC)"),
++                str("Family"),
++                font.familyname.replace("Sarasa", "更纱黑体")
++            )
++            font.appendSFNTName(
++                str("Chinese (PRC)"),
++                str("Fullname"),
++                font.fullname.replace("Sarasa", "更纱黑体")
++            )
++            font.appendSFNTName(
++                str("Chinese (PRC)"),
++                str("Compatible Full"),
++                font.fullname.replace("Sarasa", "更纱黑体")
++            )
++            font.appendSFNTName(
++                str("Chinese (PRC)"), str("SubFamily"), subFamily
++            )
++            font.appendSFNTName(
++                str("Chinese (PRC)"),
++                str("UniqueID"),
++                font.fullname.replace("Sarasa", "更纱黑体")
++            )
+         else:
+             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
+             if self.args.single:
+@@ -677,6 +697,8 @@ class font_patcher:
+             self.sourceFont.version = str(self.sourceFont.cidversion) + ";" + projectName + " " + version
+         self.sourceFont.sfntRevision = None # Auto-set (refreshed) by fontforge
+         self.sourceFont.appendSFNTName(str('English (US)'), str('Version'), "Version " + self.sourceFont.version)
++        # FOR SARASA: set version
++        self.sourceFont.appendSFNTName(str('Chinese (PRC)'), str('Version'), "版本 " + self.sourceFont.version)
+         # print("Version now is {}".format(sourceFont.version))
+ 
+ 
+@@ -1004,7 +1026,8 @@ class font_patcher:
+ 
+         # print("FINI hhea {} typo {} win {} use {}     {}      {}".format(hhea_btb, typo_btb, win_btb, use_typo, our_btb != hhea_btb, self.sourceFont.fontname))
+ 
+-        self.font_dim = {'xmin': 0, 'ymin': 0, 'xmax': 0, 'ymax': 0, 'width' : 0, 'height': 0}
++        self.font_dim = {'xmin': 0, 'ymin': 0, 'xmax': 0, 'ymax': 0, 'width' : 0, 'height': 0, 'em': 0}
++        self.font_dim['em'] = self.sourceFont.em
+ 
+         if metrics == 0:
+             self.font_dim['ymin'] = self.sourceFont.hhea_descent + half_gap(self.sourceFont.hhea_linegap, False)
+@@ -1085,12 +1108,15 @@ class font_patcher:
+             relative_width = 1.0
+         else:
+             relative_width = 2.0
++        # FOR SARASA
++        relative_width = 2.0 if is_wide else 1.0
+         target_width = self.font_dim['width'] * relative_width
+         scale_ratio_x = target_width / sym_dim['width']
+ 
+         # font_dim['height'] represents total line height, keep our symbols sized based upon font's em
+         # Use the font_dim['height'] only for explicit 'y' scaling (not 'pa')
+-        target_height = self.font_dim['height']
++        # FOR SARASA: https://github.com/laishulu/Sarasa-Mono-SC-Nerd/issues/1#issuecomment-663814468
++        target_height = self.font_dim['em']
+         scale_ratio_y = target_height / sym_dim['height']
+ 
+         if stretch == 'pa':
+@@ -1786,7 +1812,59 @@ def main():
+     for f in sourceFonts:
+         f.close()
+ 
++# FOR SARASA: extract subFamily from font name
++def get_subfamily(fontname):
++    segs = fontname.split('-')
++    if len([x for x in ["light", "bold"]
++            if x in segs[-2].lower()]) > 0:
++        subFamily = ' '.join(segs[-2:])
++    else:
++        subFamily = segs[-1]
++    return subFamily
++
++# FOR SARASA: build hdmx table
++import sys
++import math
++from fontTools.ttLib import TTFont, newTable
++def build_hdmx(filename):
++    headFlagInstructionsMayAlterAdvanceWidth = 0x0010
++    sarasaHintPpemMin = 11
++    sarasaHintPpemMax = 48
++
++    font = TTFont(filename, recalcBBoxes=False)
++
++    originalFontHead = font["head"]
++    originalFontHmtx = font["hmtx"]
++
++    originalFontHead.flags |= headFlagInstructionsMayAlterAdvanceWidth
++
++    hdmxTable = newTable("hdmx")
++    hdmxTable.hdmx = {}
++
++    # build hdmx table for odd and hinted ppems only.
++    for ppem in range(
++        math.floor(sarasaHintPpemMin / 2) * 2 + 1, sarasaHintPpemMax + 1, 2
++    ):
++        halfUpm = originalFontHead.unitsPerEm / 2
++        halfPpem = math.ceil(ppem / 2)
++        hdmxTable.hdmx[ppem] = {
++            name: math.ceil(width / halfUpm) * halfPpem
++            for name, (width, _) in originalFontHmtx.metrics.items()
++        }
++
++    font["hdmx"] = hdmxTable
++
++    font.save(filename)
++    font.close()
++
+ 
+ if __name__ == "__main__":
+     __dir__ = os.path.dirname(os.path.abspath(__file__))
++    # FOR SARASA
++    WIDE_NERD_ARG = "--wide-nerd"
++    if WIDE_NERD_ARG in sys.argv:
++        is_wide = True
++        projectName = "Wide Nerds"
++        projectNameSingular = projectName[:-1]
++        sys.argv = [x for x in sys.argv if x != WIDE_NERD_ARG]
+     main()

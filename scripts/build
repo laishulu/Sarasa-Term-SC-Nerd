@@ -1,0 +1,51 @@
+#!/bin/bash
+
+sarasa_dir="sarasa"
+sarasa_nerd_dir="sarasa-nerd"
+mkdir -p $sarasa_nerd_dir
+cd $sarasa_nerd_dir
+
+fix () {
+  original_font=$1
+  patched_font=$2
+
+  ttx -o "$original_font.ttx" -t "OS/2" $original_font
+  ttx -o "$patched_font.ttx" -t "OS/2" $patched_font
+
+  original_x_avg_char_width="$(grep xAvgCharWidth "$original_font.ttx" | cut -d '"' -f 2)"
+  echo original xAvgCharWidth is $original_x_avg_char_width
+  rm -rf "$original_font.ttx"
+
+  sed -i "" -E "s/xAvgCharWidth value=\"[0-9]+\"/xAvgCharWidth value=\"${original_x_avg_char_width}\"/g" \
+    "$patched_font.ttx"
+
+  ttx -o ${patched_font/.ttf/.after.ttf} -m $patched_font "$patched_font.ttx"
+  rm -rf "$patched_font.ttx"
+  rm $patched_font
+  mv ${patched_font/.ttf/.after.ttf} $patched_font
+}
+
+for item in ../"$sarasa_dir"/*; do
+  if [ -f "$item" ]; then
+    extension="${item##*.}"
+    if [ "$extension" == "ttf" ]; then
+      echo "processing " "$item"
+      echo "*********************************"
+      echo "generating single width nerd font"
+      echo "*********************************"
+      ../font-patcher -l -c --careful "$item"
+      fix $item $(ls -t | head -1)
+      echo "*********************************"
+      echo "generating double width nerd font"
+      echo "*********************************"
+      ../font-patcher-wide -l -c --careful --wide-nerd "$item"
+      fix $item $(ls -t | head -1)
+    fi
+  fi
+done
+
+echo "*********************************"
+echo "generating ttc from ttf"
+echo "*********************************"
+python otf2otc.py -o $sarasa_nerd_dir/sarasa-mono-sc-nerd.ttc $sarasa_nerd_dir/sarasa-mono-sc-nerd-*.ttf
+python otf2otc.py -o $sarasa_nerd_dir/sarasa-mono-sc-wide-nerd.ttc $sarasa_nerd_dir/sarasa-mono-sc-wide-nerd-*.ttf
