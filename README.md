@@ -44,26 +44,24 @@ Nerd` 字体三者可以共存，不会产生冲突。
 
 ## 安装
 
-MacOS 用户可以直接通过 cask 安装：
-
-```sh
-brew tap laishulu/cask-fonts
-brew install --cask font-sarasa-nerd
-```
-
-ArchLinux 用户可以使用 yay 安装：
-
-```sh
-yay -S nerd-fonts-sarasa-mono
-```
-
-Gentoo 用户可以添加`gentoo-zh`安装：
-
-```sh
-sudo eselect repository enable gentoo-zh
-sudo emerge --sync
-sudo emerge -av media-fonts/sarasa-mono-sc-nerd
-```
+- MacOS 用户可以直接通过 cask 安装：
+  ```sh
+  brew tap laishulu/cask-fonts
+  brew install --cask font-sarasa-nerd
+  ```
+- ArchLinux 用户可以使用 yay 安装：
+  ```sh
+  yay -S nerd-fonts-sarasa-mono 
+  ```
+- Gentoo 用户可以添加`gentoo-zh`安装：
+  ```sh
+  sudo eselect repository enable gentoo-zh
+  sudo emerge --sync
+  sudo emerge -av media-fonts/sarasa-mono-sc-nerd
+  ```
+- 手工下载安装：
+  - 下载 https://github.com/laishulu/Sarasa-Mono-SC-Nerd/releases/latest/download/sarasa-mono-sc-nerd.zip
+  - 将 `sarasa-mono-sc-nerd.zip` 解压即可得到字体文件。
 
 ## 使用
 
