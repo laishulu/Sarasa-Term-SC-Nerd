@@ -28,8 +28,8 @@ fonts`合并入`Sarasa Mono SC`, 再经过一些后处理，而最后形成的�
 ## 特性
 
 - 包含两个字体：`Sarasa Mono SC Nerd` 和 `Sarasa Mono SC Wide Nerd`，各包含十种
-  样式（Regular, Bold, Italic 等等）。两个字体的唯一区别是：`Nerd Fonts`图标在前
-  者占一个英文字宽，在后者占一个中文字宽。
+  样式（Regular, Bold, Italic 等等）。两个字体的唯一区别是：`Nerd Fonts`中可横向
+  拉伸的图标（比如 Powerline 图标）在前者占一个英文字宽，在后者占一个中文字宽。
 - `等距更纱黑体 SC` 是极少数做到中文和英文 2:1 严格对齐的字体，特别适合用来写代
   码, 以及中英文混合的字符式表格的对齐等。
 - `Nerd fonts` 提供了很多图标字体，特别适合各种 Zsh/Bash/Vim/NeoVim/Emacs 主题，
@@ -51,7 +51,7 @@ Nerd` 字体三者可以共存，不会产生冲突。
   ```
 - ArchLinux 用户可以使用 yay 安装：
   ```sh
-  yay -S nerd-fonts-sarasa-mono 
+  yay -S nerd-fonts-sarasa-mono
   ```
 - Gentoo 用户可以添加`gentoo-zh`安装：
   ```sh
