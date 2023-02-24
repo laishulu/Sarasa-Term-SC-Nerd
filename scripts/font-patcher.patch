@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..5235be2ab 100755
+index 534ddcb75..49a561775 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,10 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -133,22 +133,22 @@ index 534ddcb75..5235be2ab 100755
 +
 +            font.appendSFNTName( str("Chinese (PRC)"),
 +                str("Preferred Family"),
-+                font.familyname.replace("Sarasa", "更纱黑体")
++                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Family"),
-+                font.familyname.replace("Sarasa", "更纱黑体")
++                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Fullname"),
-+                font.fullname.replace("Sarasa", "更纱黑体")
++                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Compatible Full"),
-+                font.fullname.replace("Sarasa", "更纱黑体")
++                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"), str("SubFamily"), subFamily
@@ -156,7 +156,7 @@ index 534ddcb75..5235be2ab 100755
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("UniqueID"),
-+                font.fullname.replace("Sarasa", "更纱黑体")
++                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
 +            )
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
@@ -180,12 +180,13 @@ index 534ddcb75..5235be2ab 100755
  
          if metrics == 0:
              self.font_dim['ymin'] = self.sourceFont.hhea_descent + half_gap(self.sourceFont.hhea_linegap, False)
-@@ -1085,12 +1108,15 @@ class font_patcher:
+@@ -1085,12 +1108,16 @@ class font_patcher:
              relative_width = 1.0
          else:
              relative_width = 2.0
 +        # FOR SARASA
-+        relative_width = 2.0 if is_wide else 1.0
++        if not is_wide:
++            relative_width = 1.0
          target_width = self.font_dim['width'] * relative_width
          scale_ratio_x = target_width / sym_dim['width']
  
@@ -197,7 +198,7 @@ index 534ddcb75..5235be2ab 100755
          scale_ratio_y = target_height / sym_dim['height']
  
          if stretch == 'pa':
-@@ -1786,7 +1812,59 @@ def main():
+@@ -1786,7 +1813,59 @@ def main():
      for f in sourceFonts:
          f.close()
  

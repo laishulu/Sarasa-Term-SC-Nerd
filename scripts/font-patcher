@@ -649,22 +649,22 @@ class font_patcher:
 
             font.appendSFNTName( str("Chinese (PRC)"),
                 str("Preferred Family"),
-                font.familyname.replace("Sarasa", "更纱黑体")
+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Family"),
-                font.familyname.replace("Sarasa", "更纱黑体")
+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Fullname"),
-                font.fullname.replace("Sarasa", "更纱黑体")
+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Compatible Full"),
-                font.fullname.replace("Sarasa", "更纱黑体")
+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"), str("SubFamily"), subFamily
@@ -672,7 +672,7 @@ class font_patcher:
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("UniqueID"),
-                font.fullname.replace("Sarasa", "更纱黑体")
+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
             )
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
@@ -1109,7 +1109,8 @@ class font_patcher:
         else:
             relative_width = 2.0
         # FOR SARASA
-        relative_width = 2.0 if is_wide else 1.0
+        if not is_wide:
+            relative_width = 1.0
         target_width = self.font_dim['width'] * relative_width
         scale_ratio_x = target_width / sym_dim['width']
 
