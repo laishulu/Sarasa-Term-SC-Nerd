@@ -614,11 +614,8 @@ class font_patcher:
         }
 
         projectInfo = (
-            "Patched with '" + projectName + " Patcher' (https://github.com/ryanoasis/nerd-fonts)\n\n"
-            "* Website: https://www.nerdfonts.com\n"
+            "Patched with 'Sarasa Mono SC Nerd Patcher' (https://github.com/laishulu/Sarasa-Mono-SC-Nerd)\n\n"
             "* Version: " + version + "\n"
-            "* Development Website: https://github.com/ryanoasis/nerd-fonts\n"
-            "* Changelog: https://github.com/ryanoasis/nerd-fonts/blob/-/changelog.md"
         )
 
         familyname = replace_font_name(familyname, reservedFontNameReplacements)
@@ -1829,12 +1826,18 @@ def get_subfamily(fontname):
 import sys
 import math
 from fontTools.ttLib import TTFont, newTable
-def build_hdmx(filename):
+
+def post_fix(filename):
+    font = TTFont(filename, recalcBBoxes=False)
+    build_hdmx(font)
+    fix_isFixedPitch(font)
+    font.save(filename)
+    font.close()
+
+def build_hdmx(font):
     headFlagInstructionsMayAlterAdvanceWidth = 0x0010
     sarasaHintPpemMin = 11
     sarasaHintPpemMax = 48
-
-    font = TTFont(filename, recalcBBoxes=False)
 
     originalFontHead = font["head"]
     originalFontHmtx = font["hmtx"]
@@ -1857,9 +1860,9 @@ def build_hdmx(filename):
 
     font["hdmx"] = hdmxTable
 
-    font.save(filename)
-    font.close()
-
+def fix_isFixedPitch(font):
+    post = font["post"].__dict__
+    post["isFixedPitch"] = 1
 
 if __name__ == "__main__":
     __dir__ = os.path.dirname(os.path.abspath(__file__))
