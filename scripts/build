@@ -6,7 +6,7 @@ sarasa_nerd_dir="sarasa-nerd"
 mkdir -p $sarasa_nerd_dir
 cd $sarasa_nerd_dir
 
-fix () {
+fix_xAvgCharWidth () {
   original_font=$1
   patched_font=$2
 
@@ -26,6 +26,10 @@ fix () {
   mv ${patched_font/.ttf/.after.ttf} $patched_font
 }
 
+fix_isFixedPitch () {
+  python "$root_dir/fpfix.py" $1
+}
+
 for item in ../"$sarasa_dir"/*; do
   if [ -f "$item" ]; then
     extension="${item##*.}"
@@ -35,12 +39,14 @@ for item in ../"$sarasa_dir"/*; do
       echo "generating single width nerd font"
       echo "*********************************"
       ../font-patcher -l -c --careful "$item"
-      fix $item $(ls -t | head -1)
+      fix_xAvgCharWidth $item $(ls -t | head -1)
+      fix_isFixedPitch $(ls -t | head -1)
       echo "*********************************"
       echo "generating double width nerd font"
       echo "*********************************"
       ../font-patcher-wide -l -c --careful --wide-nerd "$item"
-      fix $item $(ls -t | head -1)
+      fix_xAvgCharWidth $item $(ls -t | head -1)
+      fix_isFixedPitch $(ls -t | head -1)
     fi
   fi
 done
