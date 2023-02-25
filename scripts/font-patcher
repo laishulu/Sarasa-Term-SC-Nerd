@@ -649,22 +649,22 @@ class font_patcher:
 
             font.appendSFNTName( str("Chinese (PRC)"),
                 str("Preferred Family"),
-                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
+                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Family"),
-                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
+                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Fullname"),
-                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
+                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Compatible Full"),
-                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
+                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"), str("SubFamily"), subFamily
@@ -672,7 +672,7 @@ class font_patcher:
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("UniqueID"),
-                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
+                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
             )
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
@@ -738,6 +738,8 @@ class font_patcher:
                 sys.exit(projectName + ": Font will not be patched! Give --mono (or -s, or --use-single-width-glyphs) twice to force patching")
         if width_mono:
             force_panose_monospaced(self.sourceFont)
+        # FOR SARASA
+        force_panose_monospaced(self.sourceFont)
 
 
     def setup_patch_set(self):

@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..49a561775 100755
+index 534ddcb75..fe6f29ee8 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,10 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -133,22 +133,22 @@ index 534ddcb75..49a561775 100755
 +
 +            font.appendSFNTName( str("Chinese (PRC)"),
 +                str("Preferred Family"),
-+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
++                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Family"),
-+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
++                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Fullname"),
-+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
++                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Compatible Full"),
-+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
++                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"), str("SubFamily"), subFamily
@@ -156,7 +156,7 @@ index 534ddcb75..49a561775 100755
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("UniqueID"),
-+                font.familyname.replace("Sarasa Mono", "等距更纱黑体")
++                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
 +            )
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
@@ -170,7 +170,16 @@ index 534ddcb75..49a561775 100755
          # print("Version now is {}".format(sourceFont.version))
  
  
-@@ -1004,7 +1026,8 @@ class font_patcher:
+@@ -716,6 +738,8 @@ class font_patcher:
+                 sys.exit(projectName + ": Font will not be patched! Give --mono (or -s, or --use-single-width-glyphs) twice to force patching")
+         if width_mono:
+             force_panose_monospaced(self.sourceFont)
++        # FOR SARASA
++        force_panose_monospaced(self.sourceFont)
+ 
+ 
+     def setup_patch_set(self):
+@@ -1004,7 +1028,8 @@ class font_patcher:
  
          # print("FINI hhea {} typo {} win {} use {}     {}      {}".format(hhea_btb, typo_btb, win_btb, use_typo, our_btb != hhea_btb, self.sourceFont.fontname))
  
@@ -180,7 +189,7 @@ index 534ddcb75..49a561775 100755
  
          if metrics == 0:
              self.font_dim['ymin'] = self.sourceFont.hhea_descent + half_gap(self.sourceFont.hhea_linegap, False)
-@@ -1085,12 +1108,16 @@ class font_patcher:
+@@ -1085,12 +1110,16 @@ class font_patcher:
              relative_width = 1.0
          else:
              relative_width = 2.0
@@ -198,7 +207,7 @@ index 534ddcb75..49a561775 100755
          scale_ratio_y = target_height / sym_dim['height']
  
          if stretch == 'pa':
-@@ -1786,7 +1813,59 @@ def main():
+@@ -1786,7 +1815,59 @@ def main():
      for f in sourceFonts:
          f.close()
  
