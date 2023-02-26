@@ -18,7 +18,7 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
 
 - 文字效果：以 Regular 样式为例
   ![文字效果](screenshots/character.png)
-- 图标效果：Powerline图标
+- 图标效果：Powerline 图标
   ![图标效果](screenshots/nerd.png)
 - 对齐效果：终端里 emacs/org-mode 中的表格对齐
   ![对齐效果](screenshots/align.png)
@@ -47,17 +47,17 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   ```
 - ArchLinux 用户可以使用 yay 安装：
   ```sh
-  yay -S nerd-fonts-sarasa-mono
+  yay -S nerd-fonts-sarasa-term
   ```
 - Gentoo 用户可以添加`gentoo-zh`安装：
   ```sh
   sudo eselect repository enable gentoo-zh
   sudo emerge --sync
-  sudo emerge -av media-fonts/sarasa-mono-sc-nerd
+  sudo emerge -av media-fonts/sarasa-term-sc-nerd
   ```
 - 手工下载安装：
-  - 下载 https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases/latest/download/sarasa-mono-sc-nerd.zip
-  - 将 `sarasa-mono-sc-nerd.zip` 解压即可得到字体文件。
+  - 下载 https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases/latest/download/sarasa-term-sc-nerd.zip
+  - 将 `sarasa-term-sc-nerd.zip` 解压即可得到字体文件。
 
 ## 使用
 
