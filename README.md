@@ -25,7 +25,7 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
 
 ## 特性
 
-- `等距更纱黑体 SC` 是极少数做到中文和英文 2:1 严格对齐的字体，特别适合用来写代
+- `Sarasa Term SC` 是极少数做到中文和英文 2:1 严格对齐的字体，特别适合用来写代
   码, 以及中英文混合的字符式表格的对齐等。
 - `Nerd fonts` 提供了很多图标字体，特别适合各种 Zsh/Bash/Vim/NeoVim/Emacs 主题，
   例如 zsh 的 [`p10k`](https://github.com/romkatv/powerlevel10k),
