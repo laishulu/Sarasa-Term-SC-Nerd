@@ -1870,7 +1870,7 @@ if __name__ == "__main__":
     WIDE_NERD_ARG = "--wide-nerd"
     if WIDE_NERD_ARG in sys.argv:
         is_wide = True
-        projectName = "Wide Nerds"
+        projectName = "wideNerds"
         projectNameSingular = projectName[:-1]
         sys.argv = [x for x in sys.argv if x != WIDE_NERD_ARG]
     main()

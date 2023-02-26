@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..cec0a6e11 100755
+index 534ddcb75..6d4e3b3ec 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,10 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -282,7 +282,7 @@ index 534ddcb75..cec0a6e11 100755
 +    WIDE_NERD_ARG = "--wide-nerd"
 +    if WIDE_NERD_ARG in sys.argv:
 +        is_wide = True
-+        projectName = "Wide Nerds"
++        projectName = "wideNerds"
 +        projectNameSingular = projectName[:-1]
 +        sys.argv = [x for x in sys.argv if x != WIDE_NERD_ARG]
      main()
