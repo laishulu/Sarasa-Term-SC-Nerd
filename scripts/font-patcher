@@ -497,7 +497,7 @@ class font_patcher:
         # dont trust 'font.familyname'
         familyname = fontname
         # FOR SARASA
-        familyname = "Sarasa Mono SC"
+        familyname = "Sarasa Term SC"
         fallbackStyle = get_subfamily(font.fontname)
 
         # fullname (filename) can always use long/verbose font name, even in windows
@@ -612,7 +612,7 @@ class font_patcher:
         }
 
         projectInfo = (
-            "Patched with 'Sarasa Mono SC Nerd Patcher' (https://github.com/laishulu/Sarasa-Mono-SC-Nerd)\n\n"
+            "Patched with 'Sarasa Term SC Nerd Patcher' (https://github.com/laishulu/Sarasa-Term-SC-Nerd)\n\n"
             "* Version: " + version + "\n"
         )
 
@@ -644,22 +644,22 @@ class font_patcher:
 
             font.appendSFNTName( str("Chinese (PRC)"),
                 str("Preferred Family"),
-                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Family"),
-                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Fullname"),
-                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("Compatible Full"),
-                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
             )
             font.appendSFNTName(
                 str("Chinese (PRC)"), str("SubFamily"), subFamily
@@ -667,7 +667,7 @@ class font_patcher:
             font.appendSFNTName(
                 str("Chinese (PRC)"),
                 str("UniqueID"),
-                font.familyname.replace("Sarasa Mono SC", "等距更纱黑体-简")
+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
             )
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
@@ -1112,7 +1112,7 @@ class font_patcher:
 
         # font_dim['height'] represents total line height, keep our symbols sized based upon font's em
         # Use the font_dim['height'] only for explicit 'y' scaling (not 'pa')
-        # FOR SARASA: https://github.com/laishulu/Sarasa-Mono-SC-Nerd/issues/1#issuecomment-663814468
+        # FOR SARASA: https://github.com/laishulu/Sarasa-Term-SC-Nerd/issues/1#issuecomment-663814468
         target_height = self.font_dim['em']
         scale_ratio_y = target_height / sym_dim['height']
 

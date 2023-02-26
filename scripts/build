@@ -44,4 +44,4 @@ echo "*********************************"
 echo "generating ttc from ttf"
 echo "*********************************"
 cd "$root_dir"
-python otf2otc.py -o $sarasa_nerd_dir/sarasa-mono-sc-nerd.ttc $sarasa_nerd_dir/sarasa-mono-sc-nerd-*.ttf
+python otf2otc.py -o $sarasa_nerd_dir/sarasa-term-sc-nerd.ttc $sarasa_nerd_dir/sarasa-term-sc-nerd-*.ttf
