@@ -9,8 +9,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 script_version = "3.5.4"
 
 version = "2.3.3"
-# FOR SARASA
-is_wide = False
 subFamily = ""
 projectName = "Nerds"
 projectNameAbbreviation = "NF"
@@ -1108,8 +1106,7 @@ class font_patcher:
         else:
             relative_width = 2.0
         # FOR SARASA
-        if not is_wide:
-            relative_width = 1.0
+        relative_width = 1.0
         target_width = self.font_dim['width'] * relative_width
         scale_ratio_x = target_width / sym_dim['width']
 
@@ -1866,11 +1863,4 @@ def fix_isFixedPitch(font):
 
 if __name__ == "__main__":
     __dir__ = os.path.dirname(os.path.abspath(__file__))
-    # FOR SARASA
-    WIDE_NERD_ARG = "--wide-nerd"
-    if WIDE_NERD_ARG in sys.argv:
-        is_wide = True
-        projectName = "wideNerds"
-        projectNameSingular = projectName[:-1]
-        sys.argv = [x for x in sys.argv if x != WIDE_NERD_ARG]
     main()

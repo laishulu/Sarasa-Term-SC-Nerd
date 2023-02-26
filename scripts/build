@@ -36,11 +36,6 @@ for item in ../"$sarasa_dir"/*; do
       echo "*********************************"
       ../font-patcher -l -c --careful "$item"
       fix_xAvgCharWidth $item $(ls -t | head -1)
-      echo "*********************************"
-      echo "generating double width nerd font"
-      echo "*********************************"
-      ../font-patcher -l -c --careful --wide-nerd "$item"
-      fix_xAvgCharWidth $item $(ls -t | head -1)
     fi
   fi
 done
@@ -50,4 +45,3 @@ echo "generating ttc from ttf"
 echo "*********************************"
 cd "$root_dir"
 python otf2otc.py -o $sarasa_nerd_dir/sarasa-mono-sc-nerd.ttc $sarasa_nerd_dir/sarasa-mono-sc-nerd-*.ttf
-python otf2otc.py -o $sarasa_nerd_dir/sarasa-mono-sc-widenerd.ttc $sarasa_nerd_dir/sarasa-mono-sc-widenerd-*.ttf
