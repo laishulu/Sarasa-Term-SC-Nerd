@@ -56,8 +56,9 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   sudo emerge -av media-fonts/sarasa-term-sc-nerd
   ```
 - 手工下载安装：
-  - 下载 https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases/latest/download/sarasa-term-sc-nerd.zip
-  - 将 `sarasa-term-sc-nerd.zip` 解压即可得到字体文件。
+  - 前往https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases 下载
+    `sarasa-term-sc-nerd.tar.gz`。
+  - 将 `sarasa-term-sc-nerd.tar.gz` 解压即可得到字体文件。
 
 ## 使用
 
