@@ -31,17 +31,12 @@ for item in ../"$sarasa_dir"/*; do
     extension="${item##*.}"
     if [ "$extension" == "ttf" ]; then
       echo "processing " "$item"
-      echo "*********************************"
-      echo "generating single width nerd font"
-      echo "*********************************"
       ../font-patcher -l -c --careful "$item"
       fix_xAvgCharWidth $item $(ls -t | head -1)
     fi
   fi
 done
 
-echo "*********************************"
 echo "generating ttc from ttf"
-echo "*********************************"
 cd "$root_dir"
 python otf2otc.py -o $sarasa_nerd_dir/sarasa-term-sc-nerd.ttc $sarasa_nerd_dir/sarasa-term-sc-nerd-*.ttf
