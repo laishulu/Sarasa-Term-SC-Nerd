@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..6d35ed401 100755
+index 534ddcb75..cec0a6e11 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,10 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -43,8 +43,8 @@ index 534ddcb75..6d35ed401 100755
          print(message)
  
 +        # FOR SARASA: build hdmx table
-+        print("Building hdmx table")
-+        build_hdmx(outfile)
++        print("Building hdmx table and fix post table")
++        post_fix(outfile)
 +
          if self.args.postprocess:
              subprocess.call([self.args.postprocess, outfile])

@@ -432,8 +432,8 @@ class font_patcher:
         print(message)
 
         # FOR SARASA: build hdmx table
-        print("Building hdmx table")
-        build_hdmx(outfile)
+        print("Building hdmx table and fix post table")
+        post_fix(outfile)
 
         if self.args.postprocess:
             subprocess.call([self.args.postprocess, outfile])
