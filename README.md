@@ -17,10 +17,13 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
 ## 字体效果
 
 - 文字效果：以 Regular 样式为例
+
   ![文字效果](screenshots/character.png)
 - 图标效果：Powerline 图标
+
   ![图标效果](screenshots/nerd.png)
 - 对齐效果：终端里 emacs/org-mode 中的表格对齐
+
   ![对齐效果](screenshots/align.png)
 
 ## 特性
@@ -56,7 +59,7 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   sudo emerge -av media-fonts/sarasa-term-sc-nerd
   ```
 - 手工下载安装：
-  - 前往https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases 下载
+  - 前往 [release](https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases) 下载
     `sarasa-term-sc-nerd.tar.gz`。
   - 将 `sarasa-term-sc-nerd.tar.gz` 解压即可得到字体文件。
 
