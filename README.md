@@ -48,16 +48,6 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   brew tap laishulu/cask-fonts
   brew install --cask font-sarasa-nerd
   ```
-- ArchLinux 用户可以使用 yay 安装：
-  ```sh
-  yay -S nerd-fonts-sarasa-term
-  ```
-- Gentoo 用户可以添加`gentoo-zh`安装：
-  ```sh
-  sudo eselect repository enable gentoo-zh
-  sudo emerge --sync
-  sudo emerge -av media-fonts/sarasa-term-sc-nerd
-  ```
 - 手工下载安装：
   - 前往 [release](https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases) 下载
     `sarasa-term-sc-nerd.tar.gz`。
