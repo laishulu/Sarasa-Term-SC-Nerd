@@ -1,19 +1,18 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..4bedde642 100755
+index 534ddcb75..77f4b8f28 100755
 --- a/font-patcher
 +++ b/font-patcher
-@@ -9,7 +9,9 @@ from __future__ import absolute_import, print_function, unicode_literals
+@@ -9,7 +9,8 @@ from __future__ import absolute_import, print_function, unicode_literals
  script_version = "3.5.4"
  
  version = "2.3.3"
 -projectName = "Nerd Fonts"
 +subFamily = ""
-+is_wide = False
 +projectName = "Nerds"
  projectNameAbbreviation = "NF"
  projectNameSingular = projectName[:-1]
  
-@@ -374,12 +376,19 @@ class font_patcher:
+@@ -374,12 +375,19 @@ class font_patcher:
              sourceFonts[0].generateTtc(outfile, sourceFonts[1:], flags=gen_flags, layer=layer)
              message = "   Generated {} fonts\n   \===> '{}'".format(len(sourceFonts), outfile)
          else:
@@ -37,7 +36,7 @@ index 534ddcb75..4bedde642 100755
              bitmaps = str()
              if len(self.sourceFont.bitmapSizes):
                  if not self.args.quiet:
-@@ -421,6 +430,10 @@ class font_patcher:
+@@ -421,6 +429,10 @@ class font_patcher:
              print("Warning: Source font is a variable open type font (VF) and the patch results will most likely not be what you want")
          print(message)
  
@@ -48,7 +47,7 @@ index 534ddcb75..4bedde642 100755
          if self.args.postprocess:
              subprocess.call([self.args.postprocess, outfile])
              print("\nPost Processed: {}".format(outfile))
-@@ -444,45 +457,15 @@ class font_patcher:
+@@ -444,45 +456,15 @@ class font_patcher:
              additionalFontNameSuffix = " " + projectNameAbbreviation
          else:
              additionalFontNameSuffix = verboseAdditionalFontNameSuffix
@@ -101,7 +100,7 @@ index 534ddcb75..4bedde642 100755
  
          if FontnameParserOK and self.args.makegroups:
              use_fullname = type(font.fullname) == str # Usually the fullname is better to parse
-@@ -514,6 +497,9 @@ class font_patcher:
+@@ -514,6 +496,9 @@ class font_patcher:
  
          # dont trust 'font.familyname'
          familyname = fontname
@@ -111,7 +110,7 @@ index 534ddcb75..4bedde642 100755
  
          # fullname (filename) can always use long/verbose font name, even in windows
          if font.fullname != None:
-@@ -627,11 +613,8 @@ class font_patcher:
+@@ -627,11 +612,8 @@ class font_patcher:
          }
  
          projectInfo = (
@@ -124,7 +123,7 @@ index 534ddcb75..4bedde642 100755
          )
  
          familyname = replace_font_name(familyname, reservedFontNameReplacements)
-@@ -647,13 +630,46 @@ class font_patcher:
+@@ -647,13 +629,46 @@ class font_patcher:
          if not (FontnameParserOK and self.args.makegroups):
              # replace any extra whitespace characters:
              font.familyname = " ".join(familyname.split())
@@ -173,7 +172,7 @@ index 534ddcb75..4bedde642 100755
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
              if self.args.single:
-@@ -677,6 +693,8 @@ class font_patcher:
+@@ -677,6 +692,8 @@ class font_patcher:
              self.sourceFont.version = str(self.sourceFont.cidversion) + ";" + projectName + " " + version
          self.sourceFont.sfntRevision = None # Auto-set (refreshed) by fontforge
          self.sourceFont.appendSFNTName(str('English (US)'), str('Version'), "Version " + self.sourceFont.version)
@@ -182,7 +181,7 @@ index 534ddcb75..4bedde642 100755
          # print("Version now is {}".format(sourceFont.version))
  
  
-@@ -716,6 +734,8 @@ class font_patcher:
+@@ -716,6 +733,8 @@ class font_patcher:
                  sys.exit(projectName + ": Font will not be patched! Give --mono (or -s, or --use-single-width-glyphs) twice to force patching")
          if width_mono:
              force_panose_monospaced(self.sourceFont)
@@ -191,7 +190,7 @@ index 534ddcb75..4bedde642 100755
  
  
      def setup_patch_set(self):
-@@ -1004,7 +1024,8 @@ class font_patcher:
+@@ -1004,7 +1023,8 @@ class font_patcher:
  
          # print("FINI hhea {} typo {} win {} use {}     {}      {}".format(hhea_btb, typo_btb, win_btb, use_typo, our_btb != hhea_btb, self.sourceFont.fontname))
  
@@ -201,13 +200,12 @@ index 534ddcb75..4bedde642 100755
  
          if metrics == 0:
              self.font_dim['ymin'] = self.sourceFont.hhea_descent + half_gap(self.sourceFont.hhea_linegap, False)
-@@ -1085,12 +1106,16 @@ class font_patcher:
+@@ -1085,12 +1105,15 @@ class font_patcher:
              relative_width = 1.0
          else:
              relative_width = 2.0
 +        # FOR SARASA
-+        if not is_wide:
-+            relative_width = 1.0
++        relative_width = 1.0
          target_width = self.font_dim['width'] * relative_width
          scale_ratio_x = target_width / sym_dim['width']
  
@@ -219,7 +217,7 @@ index 534ddcb75..4bedde642 100755
          scale_ratio_y = target_height / sym_dim['height']
  
          if stretch == 'pa':
-@@ -1786,7 +1811,65 @@ def main():
+@@ -1786,6 +1809,57 @@ def main():
      for f in sourceFonts:
          f.close()
  
@@ -277,11 +275,3 @@ index 534ddcb75..4bedde642 100755
  
  if __name__ == "__main__":
      __dir__ = os.path.dirname(os.path.abspath(__file__))
-+    # FOR SARASA
-+    WIDE_NERD_ARG = "--wide-nerd"
-+    if WIDE_NERD_ARG in sys.argv:
-+        is_wide = True
-+        projectName = "Widenerds"
-+        projectNameSingular = projectName[:-1]
-+        sys.argv = [x for x in sys.argv if x != WIDE_NERD_ARG]
-     main()
