@@ -50,8 +50,8 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   ```
 - 手工下载安装：
   - 前往 [release](https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases) 下载
-    `sarasa-term-sc-nerd.tar.gz`。
-  - 将 `sarasa-term-sc-nerd.tar.gz` 解压即可得到字体文件。
+    `sarasa-term-sc-nerd.ttc.tar.gz`。
+  - 将 `sarasa-term-sc-nerd.ttc.tar.gz` 解压即可得到字体文件。
 
 ## 使用
 
