@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..77f4b8f28 100755
+index 534ddcb75..2e483ad17 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,8 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -123,7 +123,7 @@ index 534ddcb75..77f4b8f28 100755
          )
  
          familyname = replace_font_name(familyname, reservedFontNameReplacements)
-@@ -647,13 +629,46 @@ class font_patcher:
+@@ -647,13 +629,54 @@ class font_patcher:
          if not (FontnameParserOK and self.args.makegroups):
              # replace any extra whitespace characters:
              font.familyname = " ".join(familyname.split())
@@ -137,7 +137,11 @@ index 534ddcb75..77f4b8f28 100755
              font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
              font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
              font.appendSFNTName(str('English (US)'), str('Compatible Full'), font.fullname)
-             font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
+-            font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
++            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
++                font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
++            else:
++                font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
 +
 +            # FOR SARASA: fix font name
 +            font.appendSFNTName( str("English (US)"), str("UniqueID"), font.fullname)
@@ -161,9 +165,14 @@ index 534ddcb75..77f4b8f28 100755
 +                str("Compatible Full"),
 +                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
 +            )
-+            font.appendSFNTName(
-+                str("Chinese (PRC)"), str("SubFamily"), subFamily
-+            )
++            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
++                font.appendSFNTName(
++                    str("Chinese (PRC)"), str("SubFamily"), "Regular"
++                )
++            else:
++                font.appendSFNTName(
++                    str("Chinese (PRC)"), str("SubFamily"), subFamily
++                )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("UniqueID"),
@@ -172,7 +181,7 @@ index 534ddcb75..77f4b8f28 100755
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
              if self.args.single:
-@@ -677,6 +692,8 @@ class font_patcher:
+@@ -677,6 +700,8 @@ class font_patcher:
              self.sourceFont.version = str(self.sourceFont.cidversion) + ";" + projectName + " " + version
          self.sourceFont.sfntRevision = None # Auto-set (refreshed) by fontforge
          self.sourceFont.appendSFNTName(str('English (US)'), str('Version'), "Version " + self.sourceFont.version)
@@ -181,7 +190,7 @@ index 534ddcb75..77f4b8f28 100755
          # print("Version now is {}".format(sourceFont.version))
  
  
-@@ -716,6 +733,8 @@ class font_patcher:
+@@ -716,6 +741,8 @@ class font_patcher:
                  sys.exit(projectName + ": Font will not be patched! Give --mono (or -s, or --use-single-width-glyphs) twice to force patching")
          if width_mono:
              force_panose_monospaced(self.sourceFont)
@@ -190,7 +199,7 @@ index 534ddcb75..77f4b8f28 100755
  
  
      def setup_patch_set(self):
-@@ -1004,7 +1023,8 @@ class font_patcher:
+@@ -1004,7 +1031,8 @@ class font_patcher:
  
          # print("FINI hhea {} typo {} win {} use {}     {}      {}".format(hhea_btb, typo_btb, win_btb, use_typo, our_btb != hhea_btb, self.sourceFont.fontname))
  
@@ -200,7 +209,7 @@ index 534ddcb75..77f4b8f28 100755
  
          if metrics == 0:
              self.font_dim['ymin'] = self.sourceFont.hhea_descent + half_gap(self.sourceFont.hhea_linegap, False)
-@@ -1085,12 +1105,15 @@ class font_patcher:
+@@ -1085,12 +1113,15 @@ class font_patcher:
              relative_width = 1.0
          else:
              relative_width = 2.0
@@ -217,7 +226,7 @@ index 534ddcb75..77f4b8f28 100755
          scale_ratio_y = target_height / sym_dim['height']
  
          if stretch == 'pa':
-@@ -1786,6 +1809,57 @@ def main():
+@@ -1786,6 +1817,57 @@ def main():
      for f in sourceFonts:
          f.close()
  
