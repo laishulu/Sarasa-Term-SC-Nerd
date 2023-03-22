@@ -45,4 +45,8 @@ echo "creating tarball of ttf files"
 COPYFILE_DISABLE=1 tar -czvf sarasa-term-sc-nerd.ttf.tar.gz sarasa-term-sc-*.ttf
 echo "creating tarball of ttc files"
 COPYFILE_DISABLE=1 tar -czvf sarasa-term-sc-nerd.ttc.tar.gz sarasa-term-sc-*.ttc
+echo "creating 7zip of ttc files"
+7zz a -mx9 sarasa-term-sc-nerd.ttc.7z sarasa-term-sc-*.ttc
+echo "creating 7zip of ttf files"
+7zz a -mx9 sarasa-term-sc-nerd.ttf.7z sarasa-term-sc-*.ttf
 cd "$root_dir"
