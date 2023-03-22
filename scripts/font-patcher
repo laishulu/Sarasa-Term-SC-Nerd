@@ -1200,8 +1200,9 @@ class font_patcher:
         if not sym_dim['width'] or not sym_dim['height']:
             return (1.0, 1.0)
 
-        stretch = '1'
         target_width = self.font_dim['width'] * self.get_target_width(stretch)
+        # FOR SARASA:
+        target_width = self.font_dim['width'] * 1
         scale_ratio_x = target_width / sym_dim['width']
 
         # font_dim['height'] represents total line height, keep our symbols sized based upon font's em
