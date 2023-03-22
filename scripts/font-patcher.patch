@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 534ddcb75..2e483ad17 100755
+index 534ddcb75..89cae9d15 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,8 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -136,8 +136,9 @@ index 534ddcb75..2e483ad17 100755
  
              font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
              font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
-             font.appendSFNTName(str('English (US)'), str('Compatible Full'), font.fullname)
+-            font.appendSFNTName(str('English (US)'), str('Compatible Full'), font.fullname)
 -            font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
++            font.appendSFNTName(str('English (US)'), str('Fullname'), font.fullname)
 +            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
 +                font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
 +            else:
@@ -158,12 +159,12 @@ index 534ddcb75..2e483ad17 100755
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Fullname"),
-+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
++                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
 +            )
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("Compatible Full"),
-+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
++                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
 +            )
 +            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
 +                font.appendSFNTName(
@@ -176,7 +177,7 @@ index 534ddcb75..2e483ad17 100755
 +            font.appendSFNTName(
 +                str("Chinese (PRC)"),
 +                str("UniqueID"),
-+                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
++                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
 +            )
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation

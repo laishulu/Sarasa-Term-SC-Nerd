@@ -38,10 +38,11 @@ for item in ../"$sarasa_dir"/*; do
 done
 
 echo "generating ttc from ttf"
+cd "$root_dir"
+python otf2otc.py -o $sarasa_nerd_dir/sarasa-term-sc-nerd.ttc $sarasa_nerd_dir/sarasa-term-sc-nerd-*.ttf
 cd "$sarasa_nerd_dir"
-python otf2otc.py -o sarasa-term-sc-nerd.ttc sarasa-term-sc-nerd-*.ttf
 echo "creating tarball of ttf files"
-tar -czvf sarasa-term-sc-nerd.ttf.tar.gz sarasa-term-sc-*.ttf
+COPYFILE_DISABLE=1 tar -czvf sarasa-term-sc-nerd.ttf.tar.gz sarasa-term-sc-*.ttf
 echo "creating tarball of ttc files"
-tar -czvf sarasa-term-sc-nerd.ttc.tar.gz sarasa-term-sc-*.ttc
+COPYFILE_DISABLE=1 tar -czvf sarasa-term-sc-nerd.ttc.tar.gz sarasa-term-sc-*.ttc
 cd "$root_dir"
