@@ -649,49 +649,30 @@ class font_patcher:
             font.fontname   = font.familyname.replace(
                 " ", "-") + "-" + subFamily.replace(" ", "-")
 
-            font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
-            font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
+            font.appendSFNTName(str("English (US)"), str("UniqueID"), font.fullname)
+            font.appendSFNTName(str("Chinese (PRC)"), str("UniqueID"), chn(font.fullname))
             font.appendSFNTName(str('English (US)'), str('Fullname'), font.fullname)
-            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
-                font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
-            else:
+            font.appendSFNTName(str("Chinese (PRC)"), str("Fullname"), chn(font.fullname))
+
+            if(subFamily in ["Regular", "Italic", "Bold", "Bold Italic"]):
+                font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
+                font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname))
                 font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
-
-            # FOR SARASA: fix font name
-            font.appendSFNTName( str("English (US)"), str("UniqueID"), font.fullname)
-
-            font.appendSFNTName( str("Chinese (PRC)"),
-                str("Preferred Family"),
-                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
-            )
-            font.appendSFNTName(
-                str("Chinese (PRC)"),
-                str("Family"),
-                font.familyname.replace("Sarasa Term SC", "终端更纱黑体-简")
-            )
-            font.appendSFNTName(
-                str("Chinese (PRC)"),
-                str("Fullname"),
-                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
-            )
-            font.appendSFNTName(
-                str("Chinese (PRC)"),
-                str("Compatible Full"),
-                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
-            )
-            if(subFamily not in ["Regular", "Italic", "Bold", "Bold Italic"]):
-                font.appendSFNTName(
-                    str("Chinese (PRC)"), str("SubFamily"), "Regular"
-                )
+                font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), subFamily)
             else:
-                font.appendSFNTName(
-                    str("Chinese (PRC)"), str("SubFamily"), subFamily
-                )
-            font.appendSFNTName(
-                str("Chinese (PRC)"),
-                str("UniqueID"),
-                font.fullname.replace("Sarasa Term SC", "终端更纱黑体-简")
-            )
+                if (subFamily.endswith("Italic")):
+                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname.rstrip("Italic").strip())
+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname.rstrip("Italic").strip()))
+                    font.appendSFNTName(str('English (US)'), str('SubFamily'), "Italic")
+                    font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Italic")
+                else:
+                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname))
+                    font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
+                    font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Regular")
+
+            font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
+            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Family'), chn(font.familyname))
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
             if self.args.single:
@@ -1927,6 +1908,10 @@ def get_subfamily(fontname):
     else:
         subFamily = segs[-1]
     return subFamily
+
+def chn(name):
+    return name.replace("Sarasa Term SC", "终端更纱黑体-简")
+
 
 # FOR SARASA: build hdmx table
 import sys
