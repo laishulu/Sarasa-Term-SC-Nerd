@@ -673,8 +673,8 @@ class font_patcher:
 
             font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
             font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Family'), chn(font.familyname))
-            font.appendSFNTName(str('English (US)'), str('Preferred Style'), subFamily)
-            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Style'), subFamily)
+            font.appendSFNTName(str('English (US)'), str('Preferred Styles'), subFamily)
+            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Styles'), subFamily)
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
             if self.args.single:
