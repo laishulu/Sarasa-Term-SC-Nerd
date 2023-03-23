@@ -1,5 +1,5 @@
 diff --git a/font-patcher b/font-patcher
-index 581eaee59..ea8b79dcf 100755
+index 581eaee59..03dac1606 100755
 --- a/font-patcher
 +++ b/font-patcher
 @@ -9,7 +9,8 @@ from __future__ import absolute_import, print_function, unicode_literals
@@ -123,7 +123,7 @@ index 581eaee59..ea8b79dcf 100755
          )
  
          familyname = replace_font_name(familyname, reservedFontNameReplacements)
-@@ -662,13 +644,35 @@ class font_patcher:
+@@ -662,13 +644,37 @@ class font_patcher:
          if not (FontnameParserOK and self.args.makegroups):
              # replace any extra whitespace characters:
              font.familyname = " ".join(familyname.split())
@@ -146,13 +146,13 @@ index 581eaee59..ea8b79dcf 100755
 +                font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), subFamily)
 +            else:
 +                if (subFamily.endswith("Italic")):
-+                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname.rstrip("Italic").strip())
-+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname.rstrip("Italic").strip()))
++                    font.appendSFNTName(str('English (US)'), str('Family'), font.fullname.rstrip("Italic").strip())
++                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.fullname.rstrip("Italic").strip()))
 +                    font.appendSFNTName(str('English (US)'), str('SubFamily'), "Italic")
 +                    font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Italic")
 +                else:
-+                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
-+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname))
++                    font.appendSFNTName(str('English (US)'), str('Family'), font.fullname)
++                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.fullname))
 +                    font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
 +                    font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Regular")
  
@@ -161,10 +161,12 @@ index 581eaee59..ea8b79dcf 100755
 -            font.appendSFNTName(str('English (US)'), str('Compatible Full'), font.fullname)
 -            font.appendSFNTName(str('English (US)'), str('SubFamily'), subFamily)
 +            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Family'), chn(font.familyname))
++            font.appendSFNTName(str('English (US)'), str('Preferred Style'), subFamily)
++            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Style'), subFamily)
          else:
              fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
              if self.args.single:
-@@ -692,6 +696,8 @@ class font_patcher:
+@@ -692,6 +698,8 @@ class font_patcher:
              self.sourceFont.version = str(self.sourceFont.cidversion) + ";" + projectName + " " + version
          self.sourceFont.sfntRevision = None # Auto-set (refreshed) by fontforge
          self.sourceFont.appendSFNTName(str('English (US)'), str('Version'), "Version " + self.sourceFont.version)
@@ -173,7 +175,7 @@ index 581eaee59..ea8b79dcf 100755
          # print("Version now is {}".format(sourceFont.version))
  
  
-@@ -734,6 +740,8 @@ class font_patcher:
+@@ -734,6 +742,8 @@ class font_patcher:
                  sys.exit(projectName + ": Font will not be patched! Give --mono (or -s, or --use-single-width-glyphs) twice to force patching")
          if width_mono:
              force_panose_monospaced(self.sourceFont)
@@ -182,7 +184,7 @@ index 581eaee59..ea8b79dcf 100755
  
  
      def setup_patch_set(self):
-@@ -1075,7 +1083,8 @@ class font_patcher:
+@@ -1075,7 +1085,8 @@ class font_patcher:
  
          # print("FINI hhea {} typo {} win {} use {}     {}      {}".format(hhea_btb, typo_btb, win_btb, use_typo, our_btb != hhea_btb, self.sourceFont.fontname))
  
@@ -192,7 +194,7 @@ index 581eaee59..ea8b79dcf 100755
  
          if metrics == Metric.HHEA:
              self.font_dim['ymin'] = self.sourceFont.hhea_descent - half_gap(self.sourceFont.hhea_linegap, False)
-@@ -1173,11 +1182,14 @@ class font_patcher:
+@@ -1173,11 +1184,14 @@ class font_patcher:
              return (1.0, 1.0)
  
          target_width = self.font_dim['width'] * self.get_target_width(stretch)
@@ -208,7 +210,7 @@ index 581eaee59..ea8b79dcf 100755
          scale_ratio_y = target_height / sym_dim['height']
  
          if 'pa' in stretch:
-@@ -1887,6 +1899,61 @@ def main():
+@@ -1887,6 +1901,61 @@ def main():
      for f in sourceFonts:
          f.close()
  

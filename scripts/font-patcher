@@ -661,18 +661,20 @@ class font_patcher:
                 font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), subFamily)
             else:
                 if (subFamily.endswith("Italic")):
-                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname.rstrip("Italic").strip())
-                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname.rstrip("Italic").strip()))
+                    font.appendSFNTName(str('English (US)'), str('Family'), font.fullname.rstrip("Italic").strip())
+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.fullname.rstrip("Italic").strip()))
                     font.appendSFNTName(str('English (US)'), str('SubFamily'), "Italic")
                     font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Italic")
                 else:
-                    font.appendSFNTName(str('English (US)'), str('Family'), font.familyname)
-                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.familyname))
+                    font.appendSFNTName(str('English (US)'), str('Family'), font.fullname)
+                    font.appendSFNTName(str('Chinese (PRC)'), str('Family'), chn(font.fullname))
                     font.appendSFNTName(str('English (US)'), str('SubFamily'), "Regular")
                     font.appendSFNTName(str('Chinese (PRC)'), str('SubFamily'), "Regular")
 
             font.appendSFNTName(str('English (US)'), str('Preferred Family'), font.familyname)
             font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Family'), chn(font.familyname))
+            font.appendSFNTName(str('English (US)'), str('Preferred Style'), subFamily)
+            font.appendSFNTName(str('Chinese (PRC)'), str('Preferred Style'), subFamily)
         else:
             fam_suffix = projectNameSingular if not self.args.windows else projectNameAbbreviation
             if self.args.single:
