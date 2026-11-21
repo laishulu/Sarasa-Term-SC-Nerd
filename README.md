@@ -58,20 +58,27 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   [laishulu/nur-packages](https://github.com/laishulu/nur-packages) 里，属性名是
   `font-sarasa-nerd`。
 
-  在 NixOS 的 `configuration.nix` 中（已启用 NUR 的话）：
+  在 NixOS 的 `configuration.nix` 中（已启用 NUR 的话），把它加进 `fonts.packages`：
 
   ```nix
   { pkgs, ... }:
   {
     nixpkgs.overlays = [ nur.overlays.default ];
-    environment.systemPackages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
+    fonts.packages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
   }
   ```
 
-  home-manager 同理，把它放进 `home.packages`：
+  > `fonts.packages` 是 NixOS 23.11 之后的名字，更早的版本叫 `fonts.fonts`。
+
+  home-manager 没有 `fonts.packages`，走 `home.packages` 并打开 fontconfig 模块：
 
   ```nix
-  home.packages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
+  { pkgs, ... }:
+  {
+    nixpkgs.overlays = [ nur.overlays.default ];
+    fonts.fontconfig.enable = true;
+    home.packages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
+  }
   ```
 
   也可以直接把它作为 flake 输入，不必经过 NUR：
@@ -84,7 +91,7 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
       nixosConfigurations.host = nixpkgs.lib.nixosSystem {
         modules = [{
           nixpkgs.overlays = [ nur-packages.overlays.default ];
-          environment.systemPackages = [ pkgs.font-sarasa-nerd ];
+          fonts.packages = [ pkgs.font-sarasa-nerd ];
         }];
       };
     };
@@ -97,7 +104,8 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   nix profile install github:laishulu/nur-packages#font-sarasa-nerd
   ```
 
-  字体装到 `$out/share/fonts/truetype`，若外部程序没立刻认到，刷新一下缓存：
+  字体装到 `$out/share/fonts/truetype`，若不是走 `fonts.packages` 而是手动装进
+  profile，装完刷新一下字体缓存：
 
   ```sh
   fc-cache -f
@@ -147,6 +155,6 @@ pipenv --site-packages --python=/Applications/FontForge.app/Contents/Frameworks/
 
 在合并`material design`图标时需要注意：
 - 虽然实际上`65535`是硬顶，但是`65535`在字体处理的很多地方被作为魔法数，所以用
-  `65434`作为硬顶。
+  `65534`作为硬顶。
 - 同一个字体，不同字体样式的图标数不同，斜体比常规体要多。为了避免硬顶，应当根据
   斜体图标的数量来计算。
