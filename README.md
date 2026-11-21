@@ -54,6 +54,55 @@ fonts`合并入`Sarasa Term SC`, 再经过一些后处理，而最后形成的�
   brew tap laishulu/homebrew
   brew install font-sarasa-nerd
   ```
+- NixOS / Nix 用户可以通过 [NUR](https://github.com/nix-community/NUR) 安装，包在
+  [laishulu/nur-packages](https://github.com/laishulu/nur-packages) 里，属性名是
+  `font-sarasa-nerd`。
+
+  在 NixOS 的 `configuration.nix` 中（已启用 NUR 的话）：
+
+  ```nix
+  { pkgs, ... }:
+  {
+    nixpkgs.overlays = [ nur.overlays.default ];
+    environment.systemPackages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
+  }
+  ```
+
+  home-manager 同理，把它放进 `home.packages`：
+
+  ```nix
+  home.packages = [ pkgs.nur.repos.laishulu.font-sarasa-nerd ];
+  ```
+
+  也可以直接把它作为 flake 输入，不必经过 NUR：
+
+  ```nix
+  {
+    inputs.nur-packages.url = "github:laishulu/nur-packages";
+
+    outputs = { self, nixpkgs, nur-packages, ... }: {
+      nixosConfigurations.host = nixpkgs.lib.nixosSystem {
+        modules = [{
+          nixpkgs.overlays = [ nur-packages.overlays.default ];
+          environment.systemPackages = [ pkgs.font-sarasa-nerd ];
+        }];
+      };
+    };
+  }
+  ```
+
+  或者不写配置，直接装进当前 profile：
+
+  ```sh
+  nix profile install github:laishulu/nur-packages#font-sarasa-nerd
+  ```
+
+  字体装到 `$out/share/fonts/truetype`，若外部程序没立刻认到，刷新一下缓存：
+
+  ```sh
+  fc-cache -f
+  ```
+
 - 手工下载安装：
   - 前往 [release](https://github.com/laishulu/Sarasa-Term-SC-Nerd/releases) 下载
   - 每个`ttf`文件是一个字体样式，`ttc`文件是所有样式的合集。
@@ -98,6 +147,6 @@ pipenv --site-packages --python=/Applications/FontForge.app/Contents/Frameworks/
 
 在合并`material design`图标时需要注意：
 - 虽然实际上`65535`是硬顶，但是`65535`在字体处理的很多地方被作为魔法数，所以用
-  `65534`作为硬顶。
+  `65434`作为硬顶。
 - 同一个字体，不同字体样式的图标数不同，斜体比常规体要多。为了避免硬顶，应当根据
   斜体图标的数量来计算。
